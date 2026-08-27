@@ -192,7 +192,8 @@ Copy the whole yotta-logwatch folder into the target agent's skills directory. C
 
 ## Changelog
 
-- v0.2.4 (2026-08-27): Publish-metadata fix — republished with `--name 元察 yotta-logwatch` so the ClawHub card shows the Chinese display name (previously bare `yotta-logwatch`); no functional/engine/rule change.
+- v0.2.5 (2026-08-27): Publish-metadata fix — republished with `--name '元察 yotta-logwatch'` (quoted as a single argument) so the ClawHub card now shows the Chinese display name; no functional/engine/rule change.
+- v0.2.4 (2026-08-27): Publish-metadata fix attempt — passed `--name 元察 yotta-logwatch` **without quotes**, so the shell split the value and the `--name` did not take effect; ClawHub card still showed bare `yotta-logwatch` (fixed in v0.2.5); no functional/engine/rule change.
 - v0.2.3 (2026-08-27): Clean republish — v0.2.2 tarball accidentally included __pycache__ bytecode; 0.2.3 removes it (content identical), 0.2.2 deprecated on npm.
 - v0.2.2 (2026-08-27): Docs fix — removed the repo-only `tools/validate-skill.py` reference from Development & validation (it is not shipped in the skill package); only the in-package test script remains.
 - v0.2.1 (2026-08-27): Docs parity fix — README.zh-CN.md now covers all English sections (Usage with an AI agent / Detection rules / Boundaries / Development & validation / Changelog / License); EN/zh section structure aligned. No engine changes.

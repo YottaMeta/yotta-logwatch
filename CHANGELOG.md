@@ -1,11 +1,19 @@
 # 更新日志
 
+## v0.2.5 (2026-08-27)
+
+发布元数据修正（publish-metadata patch）：
+
+- 修复 ClawHub 展示名缺失中文：v0.2.4 发布时 `--name` 参数值在 shell 中被空格拆分（`--name 元察 yotta-logwatch` 未加引号），导致 `--name` 未生效、ClawHub 卡片展示名仍为裸 slug `yotta-logwatch`。0.2.5 改为带整体引号 `--name '元察 yotta-logwatch'` 三源重发，确认 ClawHub 展示名为「元察 yotta-logwatch」。
+- 无功能 / 引擎 / 规则变更；版本 0.2.4 → 0.2.5（patch）三源同发。
+
 ## v0.2.4 (2026-08-27)
 
 发布元数据修正（publish-metadata patch）：
 
-- 修复 ClawHub 展示名缺失中文：v0.2.3 发布时未传 `--name`，ClawHub 卡片展示名回退为裸 slug `yotta-logwatch`、丢失「元察」前缀；0.2.4 带 `--name 元察 yotta-logwatch` 三源重发。
-- 无功能 / 引擎 / 规则变更；版本 0.2.3 → 0.2.4（patch）三源同发。
+- 尝试修复 ClawHub 展示名缺失中文：带 `--name 元察 yotta-logwatch` 三源重发；**但 `--name` 参数值未加引号、在 shell 中被拆分，实际未生效**，ClawHub 卡片展示名仍为裸 slug `yotta-logwatch`（详见 v0.2.5）。
+- 无功能 / 引擎 / 规则变更；版本 0.2.3 → 0.2.4（patch）。
+
 
 ## v0.2.3 (2026-08-27)
 

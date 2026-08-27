@@ -207,7 +207,8 @@ bash install.sh --dir /path/to/skills
 
 ## 更新日志
 
-- v0.2.4（2026-08-27）：发布元数据修正——带 `--name 元察 yotta-logwatch` 三源重发，修复 ClawHub 展示名缺失中文（原为裸 `yotta-logwatch`）；无功能 / 引擎 / 规则变更。
+- v0.2.5（2026-08-27）：发布元数据修正——带整体引号 `--name '元察 yotta-logwatch'` 三源重发，确认 ClawHub 卡片展示名为「元察 yotta-logwatch」；无功能 / 引擎 / 规则变更。
+- v0.2.4（2026-08-27）：发布元数据修正尝试——`--name 元察 yotta-logwatch` **未加引号**，值被 shell 拆分、`--name` 未生效，ClawHub 卡片展示名仍为裸 `yotta-logwatch`（v0.2.5 修正）；无功能 / 引擎 / 规则变更。
 - v0.2.3（2026-08-27）：洁净重发——v0.2.2 tarball 误含 __pycache__ 字节码，0.2.3 清理后重发（内容一致），npm 上已 deprecate 0.2.2。
 - v0.2.2（2026-08-27）：文档修正——「开发与校验」移除 `tools/validate-skill.py` 引用（该工具仅存在于 YottaSkills 仓库，不在发布技能包内），只保留技能包内可用的测试脚本。
 - v0.2.1（2026-08-27）：文档中英对等补全——中文 README 补齐「与 AI 智能体配合使用 / 检测规则一览 / 边界（安全红线）/ 开发与校验 / 更新日志 / 许可」章节，中英内容一致；无功能变更。

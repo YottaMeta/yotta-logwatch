@@ -46,7 +46,7 @@ try:
 except Exception:
     pass
 
-VERSION = "0.2.5"
+VERSION = "0.2.6"
 TOOL = "yotta-logwatch"
 TOOL_CN = "元察"
 

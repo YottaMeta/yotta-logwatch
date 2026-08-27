@@ -1,5 +1,12 @@
 # 更新日志
 
+## v0.2.6 (2026-08-27)
+
+发布元数据同步（publish-metadata sync）：
+
+- ClawHub 经网页后台「New version」流程重发至 v0.2.6（页面已确认展示名 `元察 yotta-logwatch` / slug `yotta-logwatch`）；为保持三源（ClawHub / GitHub / npm）版本一致，本仓库与 npm 同步升版 0.2.5 → 0.2.6。
+- 无功能 / 引擎 / 规则 / 文档变更；纯版本对齐。
+
 ## v0.2.5 (2026-08-27)
 
 发布元数据修正（publish-metadata patch）：

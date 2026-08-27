@@ -207,6 +207,7 @@ bash install.sh --dir /path/to/skills
 
 ## 更新日志
 
+- v0.2.6（2026-08-27）：发布元数据同步——经 ClawHub 网页后台「New version」重发至 v0.2.6（页面确认展示名「元察 yotta-logwatch」/ slug yotta-logwatch），GitHub + npm 同步升版 0.2.6 保持三源一致；无功能 / 引擎 / 规则变更。
 - v0.2.5（2026-08-27）：发布元数据修正——带整体引号 `--name '元察 yotta-logwatch'` 三源重发，确认 ClawHub 卡片展示名为「元察 yotta-logwatch」；无功能 / 引擎 / 规则变更。
 - v0.2.4（2026-08-27）：发布元数据修正尝试——`--name 元察 yotta-logwatch` **未加引号**，值被 shell 拆分、`--name` 未生效，ClawHub 卡片展示名仍为裸 `yotta-logwatch`（v0.2.5 修正）；无功能 / 引擎 / 规则变更。
 - v0.2.3（2026-08-27）：洁净重发——v0.2.2 tarball 误含 __pycache__ 字节码，0.2.3 清理后重发（内容一致），npm 上已 deprecate 0.2.2。

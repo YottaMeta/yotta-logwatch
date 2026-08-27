@@ -1,6 +1,6 @@
 ---
 name: yotta-logwatch
-version: 0.2.0
+version: 0.2.1
 description: 元察 —— 跨智能体的安全日志分析检测技能：零依赖自研解析 auth/secure、Web 访问日志（common/combined）、PowerShell 脚本块日志、Windows 事件日志（Security/System），检测爆破 / webshell / 扫描 / 异常登录 / 可疑脚本块 / 可疑进程 / 账户操作 / 日志清空，输出时间线与中文教学报告。触发：用户给出登录日志 / Web 访问日志 / PowerShell 日志 / Windows 事件日志，要分析入侵痕迹、排查异常活动、审计本地日志时。边界：只读本地日志文件；不联网、不主动扫描、不修改任何其内容；仅用于已获授权 / 自有资产的安全审计。
 license: MIT
 ---

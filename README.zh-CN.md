@@ -86,6 +86,25 @@ python3 scripts/yotta_logwatch.py --version
 
 退出码：**0** = 无命中；**1** = 有命中；**4** = 用法或读取错误。
 
+## 与 AI 智能体配合使用
+
+1. 把本仓库的 SKILL.md 接入任意智能体的 skills / rules 系统（见下方「安装」）。
+2. 用户问「auth 日志里有没有爆破？」时，运行：
+
+```bash
+python3 scripts/yotta_logwatch.py scan --path /var/log/auth.log
+```
+
+   即可得到按时间排序的命中：类型、严重度、证据行、中文说明与复核建议。
+3. 只关注高价值命中时，按严重度过滤：
+
+```bash
+python3 scripts/yotta_logwatch.py scan --path auth.log --min-severity high
+```
+
+4. 需要机器可读输出时用 --json（stdout 纯净），便于管道集成。
+5. 所有命中一律当作「可疑提示」人工复核，不自动判定为攻击。
+
 ## 安装
 
 三种方式任选其一，技能文件统一从 **npm** 获取（GitHub 无代理时较慢，npm 可配国内镜像加速）。
@@ -144,3 +163,55 @@ bash install.sh --dir /path/to/skills
 - **会误报吗？** 所有检测均为启发式「可疑提示」，命中只说明「值得人工复核」，不自动判定为攻击；建议结合上下文核实。
 - **能分析哪些日志？** auth/secure（sshd / login / sudo）、Web 访问日志（nginx/apache common|combined）、PowerShell 脚本块日志（Event 4104/4103、CommandInvocation、ScriptBlockText 等）、Windows 事件日志（Security/System：登录 4624/4625、账户操作 4720/4726/4740、进程创建 4688、日志清空 1102、服务 7045、计划任务 4698；支持 key=value / wevtutil 文本 / XML 导出）。
 - **合规吗？** 仅用于已获明确授权 / 自有资产 / CTF 靶场 / 教学环境的安全审计。未经授权分析他人系统数据违反法律，使用者自行承担责任。
+## 检测规则一览
+
+| 类别 | 命中类型 | 严重度 | 说明 |
+|---|---|---|---|
+| auth | brute_force | low~high | 同源多次失败登录（--max-fail 阈值） |
+| auth | credential_stuffing | high | 同源尝试多个不同用户名 |
+| auth | abnormal_login | high | 同源多次失败后成功登录 |
+| auth | root_login | medium | 来源以 root 直登 |
+| auth | sudo_escalation / sudo_attempt | medium~high | sudo 提权 / 越权（not in sudoers） |
+| web | path_traversal | high | 路径穿越（../ 或编码变体） |
+| web | sql_injection | high | SQL 注入特征 |
+| web | webshell_upload | critical | webshell 上传 / 访问轨迹 |
+| web | suspicious_ua | low | 已知扫描 / 自动化工具 UA |
+| web | scanner_signature | medium | 命中多个管理 / 敏感路径 |
+| web | flood_404 | medium | 同源 404 洪峰（--404-threshold 阈值） |
+| powershell | encoded_command | high | -EncodedCommand / 长 base64 |
+| powershell | download_execute | critical | 下载器 + 远程执行 |
+| powershell | reflection | medium | .NET / 内存反射加载 |
+| powershell | amsi_bypass | critical | AMSI 绕过字符串 |
+| powershell | obfuscation | medium | iex / [char] / 拼接等混淆 |
+| winevt | brute_force | low~high | 同源多次 4625 登录失败（--max-fail 阈值） |
+| winevt | credential_stuffing | high | 同源 4625 尝试多个用户名 |
+| winevt | abnormal_login | high | 同源先 4625 失败后 4624 成功 |
+| winevt | rdp_logon / admin_logon | medium | 4624 远程桌面（Type 10）/ 管理员登录 |
+| winevt | account_created / account_deleted | high | 4720 账户创建 / 4726 账户删除 |
+| winevt | account_locked | medium | 4740 账户被锁定 |
+| winevt | group_member_add | medium~high | 4732/4728 组成员添加（管理员组 → high） |
+| winevt | audit_log_cleared | critical | 1102 安全日志被清空 |
+| winevt | suspicious_process | low~critical | 4688 可疑进程创建（LOLBin / 编码命令等） |
+| winevt | service_installed / task_created | medium | 7045 新服务 / 4698 计划任务（持久化） |
+
+## 边界（安全红线）
+
+- **只读本地**：不联网、不主动扫描、不修改 / 删除 / 写入任何日志内容；
+- **不提供利用**：所有命中只做「可疑提示 + 复核建议」，不提供利用细节；
+- **授权**：仅用于已获明确授权 / 自有资产 / CTF 靶场 / 教学环境的安全审计；未经授权分析他人系统数据违反法律，使用者自行承担责任。
+
+## 开发与校验
+
+- 测试：`python scripts/test_yotta_logwatch.py`（66 项：嗅探 / 解析 / 检测 / 管线 / 输出 / CLI 退出码 0/1/4）
+- 基础校验：`python tools/validate-skill.py yotta-logwatch`（在仓库根目录运行）
+- 规则参考：references/auth-log-rules.md、references/web-log-rules.md、references/powershell-log-rules.md、references/windows-event-rules.md、references/analysis-spec.md
+
+## 更新日志
+
+- v0.2.1（2026-08-27）：文档中英对等补全——中文 README 补齐「与 AI 智能体配合使用 / 检测规则一览 / 边界（安全红线）/ 开发与校验 / 更新日志 / 许可」章节，中英内容一致；无功能变更。
+- v0.2.0（2026-08-27）：新增 Windows 事件日志检测（winevt）——解析 Security/System 的 key=value / wevtutil 文本 / XML 导出；4625 爆破聚合、4624 异常 / 管理员 / RDP 登录、账户创建 / 删除 / 锁定、组成员添加、1102 安全日志清空、4688 可疑进程、7045 新服务、4698 计划任务；并落地五块分析规范（references/analysis-spec.md）。66 测试全绿。详见 CHANGELOG.md。
+- v0.1.0（2026-08-27）：首版——零依赖引擎解析 auth/secure、Web 访问日志（common/combined）、PowerShell 脚本块，类型自动嗅探；auth / web / powershell 检测；文本 / JSON / Markdown 输出；42 测试全绿。
+
+## 许可
+
+MIT © YottaMeta — 见 [LICENSE](./LICENSE)。

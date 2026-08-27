@@ -1,5 +1,12 @@
 # 更新日志
 
+## v0.2.4 (2026-08-27)
+
+发布元数据修正（publish-metadata patch）：
+
+- 修复 ClawHub 展示名缺失中文：v0.2.3 发布时未传 `--name`，ClawHub 卡片展示名回退为裸 slug `yotta-logwatch`、丢失「元察」前缀；0.2.4 带 `--name 元察 yotta-logwatch` 三源重发。
+- 无功能 / 引擎 / 规则变更；版本 0.2.3 → 0.2.4（patch）三源同发。
+
 ## v0.2.3 (2026-08-27)
 
 发布洁净修正（republish patch）：

@@ -187,12 +187,12 @@ Copy the whole yotta-logwatch folder into the target agent's skills directory. C
 
 ## Development & validation
 
-- Tests: `python scripts/test_yotta_logwatch.py` (66 cases: sniffing / parsers / detection / pipeline / output / CLI exit codes 0/1/4)
-- Basic validation: `python tools/validate-skill.py yotta-logwatch` (run from the repository root)
+- Tests: `python scripts/test_yotta_logwatch.py` (66 cases: sniffing / parsers / detection / pipeline / output / CLI exit codes 0/1/4; run inside the skill folder)
 - Rule reference: references/auth-log-rules.md, references/web-log-rules.md, references/powershell-log-rules.md, references/windows-event-rules.md, references/analysis-spec.md
 
 ## Changelog
 
+- v0.2.2 (2026-08-27): Docs fix — removed the repo-only `tools/validate-skill.py` reference from Development & validation (it is not shipped in the skill package); only the in-package test script remains.
 - v0.2.1 (2026-08-27): Docs parity fix — README.zh-CN.md now covers all English sections (Usage with an AI agent / Detection rules / Boundaries / Development & validation / Changelog / License); EN/zh section structure aligned. No engine changes.
 - v0.2.0 (2026-08-27): New Windows Event Log detection (winevt) — parses key=value / wevtutil text / XML exports of Security/System; 4625 brute-force aggregation, 4624 abnormal / admin / RDP logon, account created / deleted / locked, group member add, 1102 audit log cleared, 4688 suspicious process, 7045 service, 4698 scheduled task; plus the five-block analysis spec (references/analysis-spec.md). 66 tests green. See CHANGELOG.md.
 - v0.1.0 (2026-08-27): Initial release — zero-dependency engine parsing auth/secure, Web access logs (common/combined) and PowerShell script blocks with automatic type sniffing; auth / web / powershell detection; text / JSON / Markdown output; 42 tests green.

@@ -202,12 +202,12 @@ bash install.sh --dir /path/to/skills
 
 ## 开发与校验
 
-- 测试：`python scripts/test_yotta_logwatch.py`（66 项：嗅探 / 解析 / 检测 / 管线 / 输出 / CLI 退出码 0/1/4）
-- 基础校验：`python tools/validate-skill.py yotta-logwatch`（在仓库根目录运行）
+- 测试：`python scripts/test_yotta_logwatch.py`（66 项：嗅探 / 解析 / 检测 / 管线 / 输出 / CLI 退出码 0/1/4；在技能目录内运行）
 - 规则参考：references/auth-log-rules.md、references/web-log-rules.md、references/powershell-log-rules.md、references/windows-event-rules.md、references/analysis-spec.md
 
 ## 更新日志
 
+- v0.2.2（2026-08-27）：文档修正——「开发与校验」移除 `tools/validate-skill.py` 引用（该工具仅存在于 YottaSkills 仓库，不在发布技能包内），只保留技能包内可用的测试脚本。
 - v0.2.1（2026-08-27）：文档中英对等补全——中文 README 补齐「与 AI 智能体配合使用 / 检测规则一览 / 边界（安全红线）/ 开发与校验 / 更新日志 / 许可」章节，中英内容一致；无功能变更。
 - v0.2.0（2026-08-27）：新增 Windows 事件日志检测（winevt）——解析 Security/System 的 key=value / wevtutil 文本 / XML 导出；4625 爆破聚合、4624 异常 / 管理员 / RDP 登录、账户创建 / 删除 / 锁定、组成员添加、1102 安全日志清空、4688 可疑进程、7045 新服务、4698 计划任务；并落地五块分析规范（references/analysis-spec.md）。66 测试全绿。详见 CHANGELOG.md。
 - v0.1.0（2026-08-27）：首版——零依赖引擎解析 auth/secure、Web 访问日志（common/combined）、PowerShell 脚本块，类型自动嗅探；auth / web / powershell 检测；文本 / JSON / Markdown 输出；42 测试全绿。

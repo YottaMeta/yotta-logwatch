@@ -207,6 +207,7 @@ bash install.sh --dir /path/to/skills
 
 ## 更新日志
 
+- v0.2.3（2026-08-27）：洁净重发——v0.2.2 tarball 误含 __pycache__ 字节码，0.2.3 清理后重发（内容一致），npm 上已 deprecate 0.2.2。
 - v0.2.2（2026-08-27）：文档修正——「开发与校验」移除 `tools/validate-skill.py` 引用（该工具仅存在于 YottaSkills 仓库，不在发布技能包内），只保留技能包内可用的测试脚本。
 - v0.2.1（2026-08-27）：文档中英对等补全——中文 README 补齐「与 AI 智能体配合使用 / 检测规则一览 / 边界（安全红线）/ 开发与校验 / 更新日志 / 许可」章节，中英内容一致；无功能变更。
 - v0.2.0（2026-08-27）：新增 Windows 事件日志检测（winevt）——解析 Security/System 的 key=value / wevtutil 文本 / XML 导出；4625 爆破聚合、4624 异常 / 管理员 / RDP 登录、账户创建 / 删除 / 锁定、组成员添加、1102 安全日志清空、4688 可疑进程、7045 新服务、4698 计划任务；并落地五块分析规范（references/analysis-spec.md）。66 测试全绿。详见 CHANGELOG.md。

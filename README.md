@@ -192,6 +192,7 @@ Copy the whole yotta-logwatch folder into the target agent's skills directory. C
 
 ## Changelog
 
+- v0.2.3 (2026-08-27): Clean republish — v0.2.2 tarball accidentally included __pycache__ bytecode; 0.2.3 removes it (content identical), 0.2.2 deprecated on npm.
 - v0.2.2 (2026-08-27): Docs fix — removed the repo-only `tools/validate-skill.py` reference from Development & validation (it is not shipped in the skill package); only the in-package test script remains.
 - v0.2.1 (2026-08-27): Docs parity fix — README.zh-CN.md now covers all English sections (Usage with an AI agent / Detection rules / Boundaries / Development & validation / Changelog / License); EN/zh section structure aligned. No engine changes.
 - v0.2.0 (2026-08-27): New Windows Event Log detection (winevt) — parses key=value / wevtutil text / XML exports of Security/System; 4625 brute-force aggregation, 4624 abnormal / admin / RDP logon, account created / deleted / locked, group member add, 1102 audit log cleared, 4688 suspicious process, 7045 service, 4698 scheduled task; plus the five-block analysis spec (references/analysis-spec.md). 66 tests green. See CHANGELOG.md.

@@ -1,5 +1,13 @@
 # 更新日志
 
+## v0.2.3 (2026-08-27)
+
+发布洁净修正（republish patch）：
+
+- v0.2.2 tarball 误含 `scripts/__pycache__/*.pyc`（测试后未清理，npm files 白名单下 .npmignore
+  不生效）；0.2.3 清理后重发，内容与 0.2.2 一致（17 文件无 pyc），并 deprecate 0.2.2。
+- 无功能 / 引擎 / 规则 / 文档变更；版本 0.2.2 → 0.2.3（patch）三源同发。
+
 ## v0.2.2 (2026-08-27)
 
 文档修正（docs-only patch）：

@@ -43,7 +43,7 @@ It is not tied to any single platform: it is an agent-agnostic toolkit that work
 | **Type-adaptive** | No manual type selection; auto-sniffs auth / web / powershell / winevt |
 | **Explainable** | Each hit includes a Chinese explanation and review suggestion; only flags "suspicious", never gives exploitation details |
 | **Tunable thresholds** | Brute-force / time-window / 404-flood thresholds adjustable to reduce noise |
-| **Ecosystem distribution** | GitHub + npm + ClawHub synced; install via npx / install.sh / manual copy |
+| **Ecosystem distribution** | GitHub + npm + ClawHub synced; four install methods (npx / git clone / Download ZIP / install.sh) |
 
 ## Commands
 
@@ -88,51 +88,39 @@ Exit codes: **0** = no hits; **1** = hits found; **4** = usage or read error.
 
 ## Installation
 
-Choose any of the three ways below; skill files are always fetched from **npm** (slower from GitHub when no proxy; npm can use a CN mirror for speed).
+Pick any of the four methods below; the order is the recommended priority. Skill files always come from **npm** (GitHub can be slow without a proxy; npm supports mirrors).
 
-### Option 1: npm (recommended, one-line install)
-```bash
-# CN mirror (optional): npm config set registry https://registry.npmmirror.com
-npx -y @yottameta/yotta-logwatch -g
-npx -y @yottameta/yotta-logwatch --dir <your-skills-dir>   # any agent: target a directory
+### Method 1: npm one-liner (recommended)
+
+```text
+# Optional China mirror: npm config set registry https://registry.npmmirror.com
+npx -y @yottameta/yotta-logwatch --agent <agent-name>      # install to the agent's default user-level skills dir
+npx -y @yottameta/yotta-logwatch --dir <your-skills-dir>   # point to the skills dir itself (e.g. ~/.codex/skills)
 ```
-> Not in the preset list? Use --dir to point at its skills directory, or copy manually (Option 3). --list shows each agent's default directory. To grab files manually, `npm pack @yottameta/yotta-logwatch` and unpack, then use Option 2 or 3.
 
-### Option 2: install.sh one-shot install
-Get the skill folder (via npm pack or git clone), then enter the folder:
-```bash
-bash install.sh -g    # user-level; bash install.sh --list shows all directories
-bash install.sh --agent codex   # a given agent (--list shows choices)
-bash install.sh       # project-level: auto-detect existing .claude/.cursor/.codex etc skills dirs
-bash install.sh --dir /path/to/skills
+- `--agent <name>` installs to that agent's default user-level directory; `--list` shows each agent's default directory.
+- `--dir <path>` installs to the given directory; for agents not in the preset list, point `--dir` at their skills directory.
+- If the mirror has not synced the new package (404): add `--registry=https://registry.npmjs.org/` (a proxy may be needed in China), or wait for the mirror cache.
+
+### Method 2: git clone (developers / git available)
+
+```text
+git clone https://github.com/YottaMeta/yotta-logwatch.git <your-skills-dir>/yotta-logwatch
 ```
-> Covers many agents, including CN Trae / Qwen / Comate / CodeBuddy / Kimi. Windows users need Git Bash; otherwise use Option 3 (manual copy).
 
-### Option 3: manual copy
-Copy the whole yotta-logwatch folder into the target agent's skills directory. Common locations (user-level; %USERPROFILE% on Windows, ~ on Linux/macOS):
+### Method 3: GitHub Download ZIP (manual / no git)
 
-| Agent | User-level directory | Project-level directory |
-|---|---|---|
-| Codex | %USERPROFILE%\.codex\skills\yotta-logwatch\ | .codex\skills\ |
-| Claude Code | %USERPROFILE%\.claude\skills\yotta-logwatch\ | .claude\skills\ |
-| Cursor | %USERPROFILE%\.cursor\skills\yotta-logwatch\ | .cursor\skills\ |
-| Windsurf | %USERPROFILE%\.codeium\windsurf\skills\yotta-logwatch\ | .windsurf\skills\ |
-| opencode | %USERPROFILE%\.config\opencode\skills\yotta-logwatch\ | .opencode\skills\ |
-| Gemini | %USERPROFILE%\.gemini\skills\yotta-logwatch\ | .gemini\skills\ |
-| Goose | %USERPROFILE%\.config\goose\skills\yotta-logwatch\ | .goose\skills\ |
-| Amp | %USERPROFILE%\.config\agents\skills\yotta-logwatch\ | .agents\skills\ |
-| Kiro | %USERPROFILE%\.kiro\skills\yotta-logwatch\ | .kiro\skills\ |
-| WorkBuddy | %USERPROFILE%\.workbuddy\skills\yotta-logwatch\ | .workbuddy\skills\ |
-| Trae Code CLI | %USERPROFILE%\.traecli\skills\yotta-logwatch\ | .traecli\skills\ |
-| Trae IDE (CN) | %USERPROFILE%\.trae-cn\skills\yotta-logwatch\ | .trae\skills\ |
-| Qwen Code | %USERPROFILE%\.qwen\skills\yotta-logwatch\ | .qwen\skills\ |
-| Comate | %USERPROFILE%\.comate\skills\yotta-logwatch\ | .comate\skills\ |
-| CodeBuddy | %USERPROFILE%\.codebuddy\skills\yotta-logwatch\ | .codebuddy\skills\ |
-| Kimi | %USERPROFILE%\.kimi\skills\yotta-logwatch\ | .kimi\skills\ |
-| Generic AGENTS.md | %USERPROFILE%\.agents\skills\yotta-logwatch\ | .agents\skills\ |
+On the GitHub repository `YottaMeta/yotta-logwatch`, click **Code → Download ZIP**, unzip it and put the `yotta-logwatch` folder into the agent's skills directory.
 
-> If CODEX_HOME is set, Codex's default directory follows it; same for XDG_CONFIG_HOME with opencode. Note that .agents\skills is not universal — only OpenCode / Cursor / Cline / Amp / Kimi / Gemini CLI / GitHub Copilot etc. read it; Claude Code and Codex do not by default. When in doubt, use --dir or let the agent install itself.
+### Method 4: install.sh (multi-agent one-liner script)
 
+```text
+bash install.sh --agent <name>   # install to the agent's default user-level directory
+bash install.sh --dir <path>     # install to the given directory
+bash install.sh --list           # list agents -> default directories
+```
+
+> Method 1 uses the npm registry (npmmirror / npmjs) and does not depend on GitHub; Methods 2/3 use GitHub and may fail without a proxy in China.
 ## Usage with an AI agent
 
 1. Wire this repo's SKILL.md into any agent's skills / rules system (see Installation above).
@@ -191,6 +179,8 @@ Copy the whole yotta-logwatch folder into the target agent's skills directory. C
 - Rule reference: references/auth-log-rules.md, references/web-log-rules.md, references/powershell-log-rules.md, references/windows-event-rules.md, references/analysis-spec.md
 
 ## Changelog
+
+- v0.2.7 (2026-08-29): Install docs alignment — unified four install methods (npx -y @yottameta/yotta-logwatch --agent/--dir, git clone, GitHub Download ZIP, install.sh --agent/--dir/--list), removed the legacy GitHub-clone installer and global-install (-g) recommendations; bilingual README install section synced to 发布规范 §3.3.1. No functional change.
 
 - v0.2.6 (2026-08-27): Publish-metadata sync — ClawHub republished via web UI "New version" at v0.2.6 with display name "元察 yotta-logwatch"/slug yotta-logwatch; GitHub + npm bumped to v0.2.6 to keep the three sources aligned; no functional/engine/rule change.
 - v0.2.5 (2026-08-27): Publish-metadata fix — republished with `--name '元察 yotta-logwatch'` (quoted as a single argument) so the ClawHub card now shows the Chinese display name; no functional/engine/rule change.

@@ -1,5 +1,9 @@
 # 更新日志
 
+## v0.2.8 (2026-09-13)
+
+- 文档 hygiene 清理：移除历史公开文档中的内部表述，版本同步 0.2.8。
+
 ## v0.2.7 (2026-08-29)
 
 - 安装方式统一为四方式（对齐发布规范 §3.3.1）：方式一 `npx -y @yottameta/yotta-logwatch --agent <name>` / `--dir <dir>`（推荐，走 npm 源）；方式二 `git clone https://github.com/YottaMeta/yotta-logwatch.git`；方式三 GitHub Download ZIP；方式四 `bash install.sh --agent/--dir/--list`。移除 `npx skills` 与 `-g` 推荐；中英双 README 安装节同步。
@@ -73,7 +77,7 @@
 
 ## v0.1.0 (2026-08-27)
 
-YottaMeta 自有实现首版（安全日志分析方向参考开源社区 detection-engineering / logging-monitoring 类技能思路，已完全重写，零依赖、无上游代码）：
+YottaMeta 自有实现首版（安全日志分析方向参考开源社区 detection-engineering / logging-monitoring 类技能思路，已完全重写，零依赖）：
 
 - **零依赖自研引擎**（scripts/yotta_logwatch.py，Python 3.8+ 标准库）：解析 auth/secure、Web 访问日志（common/combined）、PowerShell 脚本块日志；类型自动嗅探；只读本地、离线检测。
 - **auth 检测**：失败登录聚合 / 同源爆破（--max-fail）/ 时间窗内多账号撞库 / 异常登录（失败后成功）/ root 直登 / sudo 提权与越权（not in sudoers）。
@@ -84,4 +88,4 @@ YottaMeta 自有实现首版（安全日志分析方向参考开源社区 detect
 - **测试**：scripts/test_yotta_logwatch.py 42 项全绿（时间 / 嗅探 / 三类解析 / 三类检测 / 管线 / 输出 / CLI 退出码 0/1/4）。
 - **文档**：SKILL.md / README.md（英文门面，GitHub/npm/ClawHub 首页）/ README.zh-CN.md（中文完整主文档）/ references（auth-log-rules / web-log-rules / powershell-log-rules）/ assets/banner.png。
 - **边界**：只读本地日志；不联网、不主动扫描、不修改任何其内容；不提供利用细节。
-- 版权：YottaMeta 纯自有 MIT + NOTICE 品牌声明；README 一行上游致谢。
+- 版权：YottaMeta 纯自有 MIT + NOTICE 品牌声明。

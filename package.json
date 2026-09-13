@@ -18,7 +18,10 @@
     "bin",
     "NOTICE",
     "CHANGELOG.md",
-    "README.zh-CN.md"
+    "README.zh-CN.md",
+    "!scripts/test_*.py",
+    "!**/__pycache__",
+    "!**/*.pyc"
   ],
   "repository": {
     "type": "git",

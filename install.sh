@@ -61,10 +61,29 @@ resolve_user() {
 }
 
 install_to() {
-  mkdir -p "$1/$SKILL_NAME"
-  cp -r "$SOURCE_DIR/." "$1/$SKILL_NAME/"
-  rm -rf "$1/$SKILL_NAME/.git"
-  echo "installed -> $1/$SKILL_NAME"
+  local base="$1"
+  local dest
+  case "$base" in
+    ""|"/") echo "安装失败：拒绝不安全的目标目录：'$base'" >&2; return 1 ;;
+  esac
+  if [ -L "$base" ]; then
+    echo "安装失败：目标目录是符号链接，拒绝跟随：$base" >&2; return 1
+  fi
+  mkdir -p "$base"
+  dest="$base/$SKILL_NAME"
+  if [ -L "$dest" ]; then
+    echo "安装失败：技能目录是符号链接，拒绝跟随：$dest" >&2; return 1
+  fi
+  if [ -e "$dest" ] && [ ! -d "$dest" ]; then
+    echo "安装失败：技能路径已存在且不是目录：$dest" >&2; return 1
+  fi
+  mkdir -p "$dest"
+  cp -RP "$SOURCE_DIR/." "$dest/"
+  # 只清理副本内部的开发残留（固定子路径），不做整目录删除、不跟随符号链接
+  if [ -d "$dest/.git" ] && [ ! -L "$dest/.git" ]; then rm -rf "$dest/.git"; fi
+  find "$dest" -type d -name '__pycache__' -prune -exec rm -rf {} + 2>/dev/null || true
+  find "$dest" -type f -name '*.pyc' -delete 2>/dev/null || true
+  echo "installed -> $dest"
 }
 
 list() {
@@ -89,12 +108,13 @@ list() {
 }
 
 main() {
-  local agent="" dir="" global=0 show_list=0
+  local agent="" dir="" global=0 show_list=0 assume_yes=0
   while [ $# -gt 0 ]; do
     case "$1" in
       --agent) shift; agent="${1:-}" ;;
       --dir)   shift; dir="${1:-}" ;;
       -g|--global) global=1 ;;
+      -y|--yes) assume_yes=1 ;;
       --list|-l) show_list=1 ;;
       *) echo "未知参数: $1" >&2; exit 2 ;;
     esac
@@ -112,6 +132,10 @@ main() {
     install_to "$(resolve_user "$first")"; echo "完成。"; return
   fi
   if [ "$global" = "1" ]; then
+    if [ "$assume_yes" != "1" ]; then
+      echo "批量安装到全部已知智能体目录会写入多个宿主目录，需要显式确认：请加 --yes（或用 --agent / --dir 指定单一目标）。" >&2
+      exit 2
+    fi
     echo "安装到全部已知智能体用户级目录..."
     local dirs rel
     for a in claude cursor codex gemini goose amp opencode windsurf workbuddy kiro trae trae-cn qwen comate codebuddy kimi agents; do
